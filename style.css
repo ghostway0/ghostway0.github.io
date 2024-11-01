@@ -1,10 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
-@font-face { 
-    font-family: "unifont"; 
-    src: url("./unifont.woff") format('woff'); 
-}
-
 html {
     font-size: 16px;
 }
@@ -26,7 +21,6 @@ a {
 }
 
 pre { 
-    font-family: "unifont", "Lucida Console", monospace, Monaco;
     font-size: 1em;
     line-height: 1.0;
     padding-left: 20px;
