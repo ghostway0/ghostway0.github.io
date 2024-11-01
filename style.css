@@ -71,3 +71,8 @@ img {
     display: block;
     margin: 1em auto;
 }
+
+nav {
+    text-align: left;
+    margin-bottom: 1em;
+}
