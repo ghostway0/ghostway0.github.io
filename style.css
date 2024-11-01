@@ -1,0 +1,82 @@
+a { 
+  color: #93ffd7;
+  text-decoration: none; 
+}
+@font-face { 
+  font-family: "unifont"; 
+  src: url("./unifont.woff") format('woff'); 
+}
+pre { 
+  font-family: "unifont", "Lucida Console", monospace, Monaco; 
+  font-size:16px; 
+  line-height: 1.0;
+  padding-left: 20px;
+}
+.txtdiv {
+  display: block;
+  text-align: left;
+}
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+body {
+    font-family: monospace;
+    max-width: 80ch;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1ch;
+    word-break: break-word;
+    line-height: 1.25rem;
+  color: #FEFEFE;
+  background-color: #0A0B11;
+  margin: 0 auto;
+  padding: 1em 0 1em 0;
+}
+
+hr {
+    border: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-size: inherit;
+    font-weight: normal;
+    text-transform: uppercase;
+}
+
+h1:before {
+    content: "= ";
+}
+
+h1:after {
+    content: " =";
+}
+
+h2:before {
+    content: "== ";
+}
+h2:after {
+    content: " ==";
+}
+
+h3:before {
+    content: "=== ";
+}
+
+h3:after {
+    content: " ===";
+}
+
+hr:after {
+    content: "--------------------------------------------------------------------------------";
+    display: inline-block;
+    width: 80ch;
+    overflow-x: hidden;
+}
+
+/*a {
+    color: #2590eb;
+}*/
+
