@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TEMPLATE_PATH=$1
+TEMPLATE_PATH=${1:-template.html}
 TEMPLATE_PATH="$(realpath "$TEMPLATE_PATH")"
 root_path=$(pwd)
 
@@ -18,7 +18,7 @@ find . -type f -name "*.md" | while read -r markdown_file; do
 
     (cd "$file_dir" && \
     pandoc -f markdown "$base_name.md" --template="$TEMPLATE_PATH"\
-        -o "$base_name.html" --mathml --citeproc --csl "$relroot/ieee.csl"\
+        -o "$base_name.html" --mathml --citeproc --csl "$relroot/assets/ieee.csl"\
         --metadata csspath="$relroot"\
         --metadata year=$(date +%Y)\
         --metadata author="the internet")

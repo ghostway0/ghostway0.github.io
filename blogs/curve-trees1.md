@@ -5,8 +5,6 @@ link-citations: true
 cite-method: biblatex
 ---
 
-<link href="../style.css" rel="stylesheet"></link>
-
 Curve Trees [@cryptoeprint:2022/756] are a cryptographic data structure used to accumulate values and prove if values are members of the accumulated set. They are to be used in Monero's FCMP (Full Chain Membership Proofs)[^11] -- the future replacement of ring signatures -- and for a good reason:
 
 |            | d-CLSAG [@cryptoeprint:2019/654] (d=1) | Curve Trees |
