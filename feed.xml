@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+ <title>ghostway0.github.io</title>
+ <description>Updates from ghostway</description>
+ <link>https://ghostway0.github.io</link>
+ <atom:link href="https://ghostway0.github.io/feed.xml" rel="self" type="application/rss+xml" />
+ <lastBuildDate>Thu, 28 Nov 2024 21:40:35 +0000</lastBuildDate>
+ <ttl>1440</ttl>
+
+  <item>
+  <title>Curve Trees - Introduction</title>
+  <description> (Updated 2024-07-23)</description>
+  <link>https://ghostway0.github.io/blogs/curve-trees1.html</link>
+  <guid>https://ghostway0.github.io/blogs/curve-trees1.html@2024-07-23</guid>
+ </item>
+ </channel>
+</rss>

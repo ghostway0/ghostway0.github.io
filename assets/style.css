@@ -1,0 +1,74 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+html {
+    font-size: 16px;
+    background-color: #0A0B11;
+}
+
+body {
+    font-family: monospace;
+    max-width: 80ch;
+    margin: 0 auto;
+    padding: 1em 0;
+    word-break: break-word;
+    line-height: 1.25;
+    color: #FEFEFE;
+    background-color: #0A0B11;
+}
+
+a { 
+    color: #93ffd7;
+    text-decoration: none; 
+}
+
+pre { 
+    font-family: "Lucida Console", monospace, Monaco;
+    font-size: 1em;
+    line-height: 1.0;
+    padding-left: 20px;
+    white-space: pre-wrap;
+}
+
+.txtdiv {
+    display: block;
+    text-align: left;
+}
+
+h1, h2, h3, h4, h5 {
+    font-size: inherit;
+    font-weight: normal;
+    text-transform: uppercase;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+}
+
+h1:before { content: "= "; }
+h1:after { content: " ="; }
+h2:before { content: "== "; }
+h2:after { content: " =="; }
+h3:before { content: "=== "; }
+h3:after { content: " ==="; }
+
+hr {
+    border: none;
+    margin: 1em 0;
+}
+
+hr:after {
+    content: "--------------------------------------------------------------------------------";
+    display: inline-block;
+    width: 80ch;
+    overflow-x: hidden;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1em auto;
+}
+
+nav {
+    text-align: left;
+    margin-bottom: 1em;
+}
