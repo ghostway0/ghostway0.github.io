@@ -2,6 +2,7 @@
 
 html {
     font-size: 16px;
+    background-color: #0A0B11;
 }
 
 body {
@@ -21,6 +22,7 @@ a {
 }
 
 pre { 
+    font-family: "Lucida Console", monospace, Monaco;
     font-size: 1em;
     line-height: 1.0;
     padding-left: 20px;
