@@ -1,7 +1,7 @@
 TEMPLATE_PATH := lib/template.html
 RSS_TEMPLATE_PATH := lib/rss-template.xml
 
-.PHONY: all html feed
+.PHONY: all html feed clean
 
 all: html feed
 
@@ -28,3 +28,7 @@ feed.xml: feed.yaml ${RSS_TEMPLATE_PATH}
 		--template=${RSS_TEMPLATE_PATH} \
 		-t html \
 		-o feed.xml < /dev/null
+
+clean:
+	rm -f $(patsubst %.md,%.html,$(shell find . -type f -name "*.md"))
+	rm -f feed.xml

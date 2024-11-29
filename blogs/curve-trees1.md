@@ -27,7 +27,7 @@ Because you clicked on whatever link brought you to a page about Curve Trees; ob
 
 You must have basic math knowledge about fields and groups[@cseedu:brubaker/152groups]. Elliptic curves can be treated as an algebraic construct that is defined over a field called the base field. You do need to assume, even as merely a black box, that points on elliptic curves form a cyclic (and thus also an abelian, better known as a commutative) group, with the identity being the "point at infinity" $\mathcal{O}$. For an introduction, look at [these slides](https://www.math.brown.edu/johsilve/Presentations/WyomingEllipticCurve.pdf). This post is not self contained, but I keep quite a comprehensive [bibliography](#references) at the end. Note the use of $\langle a, b \rangle$ to represent the inner product[^7].
 
-![Elliptic Curves! (xkcd 2048)](https://i.ibb.co/9qcDws4/untitled-8.png)
+![Elliptic Curves! (xkcd 2048)](../resources/curve-trees1-1.png)
 
 The Curve Trees paper assumes the hardness of the Discrete Log Problem (DLP). It basically means that it is hard to find $n$ from the knowledge of $G$ and $P$ with the relation $[n]G = \underbrace{G + \ldots + G}_{\text{n times}} = P$.
 
@@ -48,13 +48,13 @@ In curve trees, Pedersen commitments are used as a compressor function at every 
 
 This 'type mismatch' has been seen before in zk proofs: earlier methods, such as  and some ETH zero knowledge contracts, emulate(d) field arithmetic on one field with operations on another for the exact same reason; committing produces results in the base field, and proving needs to work on the scalar field [@blogicme:canweavoidcycles; @blogpersonlabs:efficientecdsa] [^10]. That's called "wrong field arithmetic" or "non-native arithmetic", and is too slow to be practical: circuits using it can be 100 to 200 times larger[@slides:deepdiveonhalo2 page 38]. They found that we could, however, define that two elliptic curves have complementing cardinalities and orders, as in, one's scalar field being the base field of the other. meaning every odd and even layers will be points of $E_{odd}$ and $E_{even}$ respectively, using the pedersen commitment as an adaptor. that would work, but do such curves exist?
 
-![Elliptic curve Cycles [@springer:asurveyproofsys]](https://media.springernature.com/lw685/springer-static/image/art%3A10.1007%2Fs10623-022-01135-y/MediaObjects/10623_2022_1135_Fig1_HTML.png)
+![Elliptic curve Cycles [@springer:asurveyproofsys fig. 1]](../resources/curve-trees1-2.png)
 
 Surprisingly, yes!
 
 (A bit) More formally, Curve Trees are the algebraic structure $(\ell, E_{even}, E_{odd})$, where $\ell$ is the branching factor of the tree, with the $\ell$ children at each layer compressed by their parent with the alternating compression functions $f_{E_{even}}: \quad E_{odd}^{\ell} \mapsto E_{even}$ and $f_{E_{odd}}: \quad E_{even}^{\ell} \mapsto E_{odd}$ being Pedersen commitments as explained earlier. The tree is defined recursively, where leaves make up the set of values we can commit to. Those are compressed by the aforementioned compression function, until the root is reached.
 
-![Curve Trees paper [@cryptoeprint:2022/756] fig. 3; The orange path is the path to the leaf.](https://i.ibb.co/FH9GkCT/2024-06-28-21-42.png)
+![Curve Trees paper [@cryptoeprint:2022/756] fig. 3; The orange path is the path to the leaf.](../resources/curve-trees1-3.png)
 
 Let's return to why we even wanted this construction: we wanted a tree.
 
