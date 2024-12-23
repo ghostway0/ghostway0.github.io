@@ -9,3 +9,9 @@ I would love to hear from you; my email is at tuta.io. you can look at source hu
 Blogs:
 
 - [Curve Trees - Introduction](/blogs/curve-trees1.html)
+
+Links:
+
+[Microblog](/microbullshit.html)
+
+[RSS](/feed.xml)
