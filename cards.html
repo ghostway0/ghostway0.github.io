@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cards</title>
+</head>
+<body>
+  <div id="card-details">
+    <div>
+      <p>Card Holder: ghostway</p>
+      <p>Card Type: MONOPOLY MONEY</p>
+      <p>Card Number: 215-844-8836</p>
+      <p>Expiry Date: 12/2025</p>
+      <p>CVV: 137</p>
+      <p>Billing Address: 0xcc Edward's Way, The Void</p>
+      <hr>
+    </div>
+  </div>
+
+  <a href="#" id="more">[More]</a>
+  <span id="loading-message"></span>
+
+  <script>
+    const CARD_HOLDERS = [
+      // celebrities
+      // yes I know these are not your typical celebrities thank you very much
+      'Linus Torvalds', 'Ada Lovelace', 'Alan Turing', 'John von Neumann', 'Peter Shor',
+      // cool people/friends
+      'robinlinden', 'grayhatter', 'zyansheep',
+
+      // lolz
+      'Doctor Who', 'Gandalf the Grey', 'Darth Vader', 'Leeroy Jenkins',
+      'Sir NotAppearing Inthisfilm'
+    ];
+
+    const CARD_TYPES = {
+      VISA: {
+        prefix: '4',
+        length: 16
+      },
+      MONOPOLY: {
+        prefix: 'lol',
+        length: 16
+      },
+      MASTERCARD: {
+        prefix: '51',
+        length: 16
+      },
+      AMEX: {
+        prefix: '37',
+        length: 15
+      },
+      DISCOVER: {
+        prefix: '6011',
+        length: 16
+      }
+    };
+
+    const STREET_NAMES = [
+      "Binary", "Quantum", "Logic", "Silicon", "Firewall", "Bandwidth", "Protocol",
+      "Algorithm", "Terabyte", "Gigabit", "Encryption", "Decryption", "Open Source",
+      "Cyber", "Hacker", "Pixel", "Dank Meme", "Troll"
+    ];
+
+    const STREET_TYPES = [
+      "St.", "Ave.", "Blvd.", "Ln.", "Rd.", "Way", "Ct.", "Pl.", "Dr."
+    ];
+
+    function get_random_int(min, max) {
+      return Math.floor(Math.random() * (Math.floor(max) - Math.ceil(min) + 1)) + Math.ceil(min);
+    }
+
+    function calculate_luhn_checksum(number) {
+      let sum = 0;
+      let is_alternate_digit = false;
+      for (let i = number.length - 1; i >= 0; i--) {
+        let digit = parseInt(number.charAt(i));
+        if (is_alternate_digit) {
+          digit *= 2;
+          if (digit > 9) {
+            digit -= 9;
+          }
+        }
+        sum += digit;
+        is_alternate_digit = !is_alternate_digit;
+      }
+      return (10 - (sum % 10)) % 10;
+    }
+
+    function generate_card_number(prefix, length) {
+      let number = prefix;
+      while (number.length < length - 1) {
+        number += get_random_int(0, 9);
+      }
+      number += calculate_luhn_checksum(number);
+      return number;
+    }
+
+    function generate_expiry_date() {
+      const year = new Date().getFullYear() + get_random_int(1, 5);
+      const month = String(get_random_int(1, 12)).padStart(2, '0');
+      return `${month}/${year}`;
+    }
+
+    function generate_cvv() {
+      return String(get_random_int(0, 999)).padStart(3, '0');
+    }
+
+    function generate_billing_address() {
+      const num_street_name_parts = get_random_int(1, 3);
+      let street_name = "";
+      for (let i = 0; i < num_street_name_parts; i++) {
+        street_name += STREET_NAMES[get_random_int(0, STREET_NAMES.length - 1)] + " ";
+      }
+      const street_type = STREET_TYPES[get_random_int(0, STREET_TYPES.length - 1)];
+      return `${get_random_int(1, 9999)} ${street_name}${street_type}`;
+    }
+
+    function generate_card_details() {
+      const card_type_names = Object.keys(CARD_TYPES);
+      const card_type = card_type_names[get_random_int(0, card_type_names.length - 1)];
+      const { prefix, length } = CARD_TYPES[card_type];
+      return {
+        card_type,
+        card_number: generate_card_number(prefix, length),
+        expiry_date: generate_expiry_date(),
+        cvv: generate_cvv(),
+        card_holder_name: CARD_HOLDERS[get_random_int(0, CARD_HOLDERS.length - 1)],
+        billing_address: generate_billing_address()
+      };
+    }
+
+    function display_card_details(details) {
+      document.getElementById('card-details').insertAdjacentHTML('beforeend',
+        "  <p>Card Holder: " + details.card_holder_name + "</p>\n" +
+        "  <p>Card Type: " + details.card_type + "</p>\n" +
+        "  <p>Card Number: " + details.card_number + "</p>\n" +
+        "  <p>Expiry Date: " + details.expiry_date + "</p>\n" +
+        "  <p>CVV: " + details.cvv + "</p>\n" +
+        "  <p>Billing Address: " + details.billing_address + "</p>\n" +
+        "  <hr>\n"
+      );
+    }
+
+    function generate_and_display_cards(count) {
+      const loading_message = document.getElementById('loading-message');
+      loading_message.textContent = "Fetching cards...";
+
+      setTimeout(() => {
+        for (let i = 0; i < count; i++) {
+          display_card_details(generate_card_details());
+        }
+
+        loading_message.textContent = "";
+      }, 2000);
+    }
+
+    document.getElementById('more').addEventListener('click', (event) => {
+      event.preventDefault();
+      generate_and_display_cards(100);
+    });
+  </script>
+</body>
+</html>
