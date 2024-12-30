@@ -2,23 +2,20 @@
 
 html {
     font-size: 16px;
-    background-color: #0A0B11;
 }
 
 body {
     font-family: monospace;
     max-width: 80ch;
     margin: 0 auto;
-    padding: 1em 0;
+    padding: 2em 1em;
     word-break: break-word;
-    line-height: 1.25;
-    color: #FEFEFE;
-    background-color: #0A0B11;
+    line-height: 1.5;
 }
 
 a { 
-    color: #93ffd7;
     text-decoration: none; 
+    color: #0077cc;
 }
 
 pre { 
