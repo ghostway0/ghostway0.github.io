@@ -2,7 +2,7 @@
 title: cool sources
 ---
 
-# Quantum Mechanics
+## Quantum Mechanics
 
 [Quantum Mechanical Interaction-Free Measurements](https://physlab.org/wp-content/uploads/2024/02/InteractionFree1993-1.pdf)
 
