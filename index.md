@@ -1,5 +1,5 @@
 ---
-title: ghostway
+title: index
 ---
 
 Hello! My alias is ghostway. My hidden talent is to break stuff unintentionally.
