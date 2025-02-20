@@ -2,7 +2,7 @@
 title: 'The UnslothAI challenge: DeepSeek and optimization'
 ---
 
-I, like many others, found [the challenge](https://colab.research.google.com/drive/1JqKqA1XWeLHvnYAc0wzrR4JBCnq43HyH?usp=sharing) on Twitter ($\mathbb{X}$) and quite immediately found them interesting. They totally were, but not for the reasons I had imagined.
+I, like many others, found [UnslothAI's challenges notebook](https://colab.research.google.com/drive/1JqKqA1XWeLHvnYAc0wzrR4JBCnq43HyH?usp=sharing) on Twitter ($\mathbb{X}$) and quite immediately found the challenges interesting. The problems they presented included weird systems and something new to learn. Those challenges were certainly fun, but not for the reasons I had imagined.
 
 I attempted the first challenge -- writing a dequantization kernel for NF4->other floats. [The `fast_dequantize` function](https://github.com/unslothai/unsloth/blob/main/unsloth/kernels/utils.py#L128) from UnslothAI's library is the starting point:
 
@@ -43,9 +43,9 @@ def _your_dequantize_nf4_kernel(
 
     base_offsets = base_idx + tl.arange(0, TILE_SIZE)
 
-    absmax = tl.load(absmax2_ptr + base_offsets // (absmax_blocksize * blocksize))
+    absmax2 = tl.load(absmax2_ptr + base_offsets // (absmax_blocksize * blocksize))
     absmax_bytes = tl.load(absmax_ptr + base_offsets // blocksize)
-    local_abs_max = tl.load(code_ptr + absmax_bytes) * absmax + absmax_offset
+    local_abs_max = tl.load(code_ptr + absmax_bytes) * absmax2 + absmax_offset
 
     qvals_bytes = tl.load(a_ptr + base_offsets, mask=base_offsets < n_elements // 2, other=0)
 
@@ -61,6 +61,7 @@ def _your_dequantize_nf4_kernel(
     tl.store(out_ptr + odd_offsets, val0, mask=odd_offsets < n_elements)
     tl.store(out_ptr + even_offsets, val1, mask=even_offsets < n_elements)
 ```
+(For the change log see [this repo](https://github.com/ghostway0/unslothai-challenge))
 
 Why did those 20 lines of code take two sleep-deprived days to write? Well, that's today's story.
 
