@@ -83,30 +83,16 @@ __global__ void kDequantizeBlockwise(float *code, unsigned char * A, float * abs
   unsigned char qvals[NUM_PER_TH];
   float local_abs_max = -FLT_MAX;
 
-  typedef cub::BlockLoad<unsigned char, THREADS, NUM_PER_TH, cub::BLOCK_LOAD_WARP_TRANSPOSE> LoadChar;
-  typedef cub::BlockStore<T, THREADS, NUM_PER_TH*((DATA_TYPE > 0) ? 2 : 1), cub::BLOCK_STORE_WARP_TRANSPOSE> StoreT;
-
   __shared__ typename LoadChar::TempStorage loadchar;
   __shared__ typename StoreT::TempStorage storet;
 
   for (int i = base_idx; i < n_load; i += gridDim.x*TILE_SIZE) // a loop that only executes once
   {
-    if (DATA_TYPE > 0)
-    {
-      valid_items_load = min(TILE_SIZE, (n + 1) / 2 - i);
-      valid_items_store = min(TILE_SIZE * 2, n - i * 2);
-    }
-    else
-    {
-      valid_items_load = min(TILE_SIZE, n - i);
-      valid_items_store = valid_items_load;
-    }
+    ...
 
-    // Since blocksize will always be a power-of-2, we avoid more expensive
-    // division by the blocksize and instead use a shift operation.
-    // This is equivalent to (i+threadId.x*NUM_PER_TH)/blocksize.
     local_abs_max = __ldg(&absmax[(i+threadIdx.x*NUM_PER_TH) >> (31 - __clz(blocksize))]);
 
+    // not sure why syncthreads is needed here. everything is independent
     __syncthreads();
     LoadChar(loadchar).Load(&(A[i]), qvals, valid_items_load, 128);
 
@@ -131,7 +117,7 @@ __global__ void kDequantizeBlockwise(float *code, unsigned char * A, float * abs
           for(int j = 0; j < NUM_PER_TH; j++)
           {
             vals[j*2] = dDequantizeNF4(qvals[j] >> 4)* local_abs_max;
-            vals[j*2 + 1] = dDequantizeNF4(qvals[j] & 0x0F)* local_abs_max; // why is the lower part on the higher address?
+            vals[j*2 + 1] = dDequantizeNF4(qvals[j] & 0x0F)* local_abs_max; // why is the lower part on the higher address? at least it's consistent
           }
           break;
     }
@@ -142,9 +128,8 @@ __global__ void kDequantizeBlockwise(float *code, unsigned char * A, float * abs
 }
 ```
 
+The triton kernel from earlier is ~50% faster on large matrices--with some recomputation and unnecessary loads--and most of the time was wasted because of weird library quirks, not thinking about the challenge itself. Don't get me wrong -- I loved reversing the code, thinking about the kernels and writing it, but that shouldn't have been such hard a job.
 
+Microscaling formats [aren't](https://developer.nvidia.com/blog/nvidia-arm-and-intel-publish-fp8-specification-for-standardization-as-an-interchange-format-for-ai/) [a new](https://arxiv.org/pdf/2310.10537) [idea](https://fpga.org/2023/11/27/risc-v-composable-extensions-for-microscaling-data-formats-for-ai-tensors/)
 
-Code was fp16 because of the set_default_, but no checks, raw pointer
-fp16/bf16 no check for inclusion
-cuda kernel for loop only once
-per_thread weird and could be wrong -> assumptions about block size
+https://arxiv.org/pdf/2412.19437
