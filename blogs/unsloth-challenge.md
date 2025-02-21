@@ -65,8 +65,7 @@ def _your_dequantize_nf4_kernel(
 
 Why did those 20 lines of code take two sleep-deprived days to write? Well, that's today's story.
 
-// terrible code-reading skills when I didn't understand the two calls to dequantize (just did the nf4 dequantize)
-My terrible code-reading skills weren't the only problem, though: in the original challenge's code, `torch.set_default_dtype(test_dtype)` was called, making some down-the-line code generate the `code` tensor with that dtype. You may have noticed that Unsloth's code did not check any of that, nor did it check if the test dtype is included in their \[fp16, bf16\] expected dtypes.
+Initially I overlooked the fact that there were two calls to dequantize--I had assumed that only the nf4 dequantize was relevant, but my terrible code-reading skills weren't the only problem: in the original challenge's code, `torch.set_default_dtype(test_dtype)` was called, making some down-the-line code generate the `code` tensor with that dtype. You may have noticed that Unsloth's code did not check any of that, nor did it check if the test dtype is included in their \[fp16, bf16\] expected dtypes.
 
 Let's take another look at the Cuda kernel:
 
@@ -131,6 +130,6 @@ __global__ void kDequantizeBlockwise(float *code, unsigned char * A, float * abs
 
 The triton kernel from earlier is ~50% faster on large matrices--with some recomputation and unnecessary loads--and most of the time was wasted because of weird library quirks, not thinking about the challenge itself. Don't get me wrong -- I loved reversing the code, thinking about the kernels and writing it, but that shouldn't have been such hard a job.
 
-Microscaling formats [aren't](https://developer.nvidia.com/blog/nvidia-arm-and-intel-publish-fp8-specification-for-standardization-as-an-interchange-format-for-ai/) [a new](https://arxiv.org/pdf/2310.10537) [idea](https://fpga.org/2023/11/27/risc-v-composable-extensions-for-microscaling-data-formats-for-ai-tensors/)
+Microscaling formats [aren't](https://developer.nvidia.com/blog/nvidia-arm-and-intel-publish-fp8-specification-for-standardization-as-an-interchange-format-for-ai/) [a new](https://arxiv.org/pdf/2310.10537) [idea](https://fpga.org/2023/11/27/risc-v-composable-extensions-for-microscaling-data-formats-for-ai-tensors/), yet the industry-standard is... Not optimal.
 
 https://arxiv.org/pdf/2412.19437
